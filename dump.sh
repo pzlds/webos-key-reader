@@ -12,7 +12,12 @@ curl -sS -L -o gdb "https://github.com/marcinguy/arm-gdb-static/raw/master/gdbst
 chmod +x gdb
 fi
 
->&2 echo "[*] Preparing key retrieval GDB script..."
+>&2 echo -n "[*] Searching for tvservice process..."
+# `pidof` does not work here for whatever reason.
+TVSERVICE_PID="$(ps --no-heading -o pid= -C tvservice | xargs | cut -f1)"
+>&2 echo " found. (${TVSERVICE_PID})"
+
+>&2 echo "[*] Attaching to the process (this may take a few seconds and print a few warnings)..."
 cat << 'EOF' > dump.gdb
 # The function export indicates that PVR_DEBUG_RetrieveDvrKey
 # requires a uint8_t * and a uint32_t * as parameters, which are apparently
@@ -39,12 +44,6 @@ call (void) free($target_buf)
 call (void) free($target_len_buf)
 EOF
 
->&2 echo -n "[*] Searching for tvservice process..."
-# `pidof` does not work here for whatever reason.
-TVSERVICE_PID="$(ps --no-heading -o pid= -C tvservice | xargs | cut -f1)"
->&2 echo " found. (${TVSERVICE_PID})"
-
->&2 echo "[*] Attaching to the process (this may take a few seconds and print a few warnings)..."
 ./gdb --batch -x dump.gdb -p "${TVSERVICE_PID}"
 
 >&2 echo "[*] Done!"
