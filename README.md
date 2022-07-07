@@ -17,6 +17,7 @@ This is a tool for webOS TVs (and compatibles?) that reads the DVR encryption ke
 ## Compatibility
 
 Devices that are not listed have not been tested yet.
+Issues or PRs with information about other devices are welcome.
 
 | Model Number | Software Version | webOS Version | DVR Key            |
 |--------------|------------------|---------------|--------------------|
@@ -28,7 +29,8 @@ This tool is intended to help with key retrieval for the purpose of compressing
 or repairing recordings. Do not use it for piracy, or any other illegal purpose.
 
 This tool is provided without any kind of warranty. Do not expect any support,
-updates, or bugfixes.
+updates, or bugfixes. However, if there is some issue or missing feature,
+feel free to open an issue and I may choose to look into it.
 
 To my understanding, `PVR_DEBUG_RetrieveDvrKey` is an API due to being exported
 from the ELF, including the function name and parameter information. No other
